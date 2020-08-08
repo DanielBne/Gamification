@@ -28,6 +28,19 @@ body {
 .scorecard .detail {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.topscorecard {
+  display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
+}
+
+.dp {
+  height: 50px;
+  width: 50px;
+  margin: 4pt;
 }

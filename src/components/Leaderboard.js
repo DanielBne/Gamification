@@ -7,7 +7,7 @@ export class Leaderboard extends React.Component {
 
     constructor(props) {
         super(props);
-    
+
         // Default state
         this.state = {
             users: []
@@ -18,11 +18,21 @@ export class Leaderboard extends React.Component {
 
     getUsers = () => {
         monday
-            .api(`query { users { id, name, title, photo_tiny } }`)
-            .then((res) => { 
-                this.setState({ users: res.data.users }); 
+            .api(`query { users { id, name, title, photo_thumb_small } }`)
+            .then((res) => {
+                const users = res.data.users.map((user) => {
+                    return {
+                        id : user.id,
+                        name : user.name,
+                        title : user.title || "No Title",
+                        level : 3,
+                        profilePic : user.photo_thumb_small
+                    }
+                });
+
+                this.setState({ users: users });
             });
-    };
+    }
 
     render() {
         const users = this.state.users;
