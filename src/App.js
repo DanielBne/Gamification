@@ -1,4 +1,5 @@
 import React from "react";
+import "./mondayStyles.css";
 import "./App.css";
 import mondaySdk from "monday-sdk-js";
 import { Leaderboard } from "./components/Leaderboard";
@@ -53,7 +54,8 @@ class App extends React.Component {
   render() {
      // Every property specified in component becomes a property of Leaverbord.props
     return (
-      <div className="App">
+      // TODO: Support dark theme
+      <div className="App light-app-theme">
         <Leaderboard settings={this.state.settings} />
       </div>
     );

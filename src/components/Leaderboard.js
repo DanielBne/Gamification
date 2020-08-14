@@ -1,6 +1,7 @@
 import React from "react";
 import { ScoreCard } from "./ScoreCard";
 import mondaySdk from "monday-sdk-js";
+import "./Leaderboard.css";
 const monday = mondaySdk();
 
 export class Leaderboard extends React.Component {
@@ -24,7 +25,7 @@ export class Leaderboard extends React.Component {
                     return {
                         id : user.id,
                         name : user.name,
-                        title : user.title || "No Title",
+                        title : user.title || "",
                         level : 3,
                         profilePic : user.photo_thumb_small
                     }
