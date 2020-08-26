@@ -38,10 +38,8 @@ class App extends React.Component {
     const boardIds = context.boardIds || [context.boardId];
     monday
       .api(`query { boards(ids:[${boardIds}]) { id, items { id, name, column_values { type, id, text } } }}`)
-      .then((res) => { this.setState({ boards: res.data.boards });
-        // , () => {
-        //   console.log(res.data.boards[0].items.slice(0, 10).map((item) => item.id));
-        // });
+      .then((res) => { 
+        this.setState({ boards: res.data.boards });
       });
   };
 
@@ -56,7 +54,7 @@ class App extends React.Component {
     return (
       // TODO: Support dark theme
       <div className="App light-app-theme">
-        <Leaderboard settings={this.state.settings} />
+        <Leaderboard settings={this.state.settings} boards={this.state.boards} />
       </div>
     );
   }
