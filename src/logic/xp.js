@@ -4,7 +4,7 @@
  * @param {Array} boards The boards to add up XP from.
  * @param {*} settings We use this to get properties we need: { defaultXP, statusColumn, ownerColumn, xpColumn }
  */
-export function CalculateXpForUsers(users, boards, settings) {
+export function calculateXpForUsers(users, boards, settings) {
 	// Console.debug is under the verbose setting in Chrome dev tools, but is not visible by default.
 	console.debug(`Calculating XP for ${users.length} users`);
 
@@ -35,6 +35,9 @@ export function CalculateXpForUsers(users, boards, settings) {
 	for(const user of users) {
 		user.level = 1 + Math.floor(user.xp / settings.xpPerLevel);
 	}
+
+	users = users.sort((x, y) => y.level - x.level);
+	console.log(users);
 }
 
 
@@ -53,7 +56,7 @@ function accumulateXP(users, item, settings) {
 	if(statusColumnName) {
 		const status = item.column_values.find((e) => e.id === statusColumnName);
 		if(status && status.text !== "Done") {
-			console.debug(`Skipped "${item.name}" as it has status "${status.text}"`);
+			console.debug(`	Skipped "${item.name}" as it has status "${status.text}"`);
 			return;
 		}
 	}
@@ -88,7 +91,7 @@ function accumulateXP(users, item, settings) {
 		if(!uniqueUsers.has(user.name)) {
 			continue;
 		}
-		console.debug(`"${item.name}" is worth ${award}xp to ${user.name}`);
+		console.debug(`	"${item.name}" is worth ${award}xp to ${user.name}`);
 		user.xp = (user.xp || 0) + award;
 	}
 }

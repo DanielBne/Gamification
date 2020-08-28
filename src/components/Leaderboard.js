@@ -1,6 +1,7 @@
 import React from "react";
 import { ScoreCard } from "./ScoreCard";
-import { CalculateXpForUsers } from "../logic/xp"
+import { Error } from "./Error";
+import { calculateXpForUsers } from "../logic/xp"
 import mondaySdk from "monday-sdk-js";
 import "./Leaderboard.css";
 const monday = mondaySdk();
@@ -40,22 +41,40 @@ export class Leaderboard extends React.Component {
     render() {
         const users = this.state.users;
 
-        this.calculateXP();
-
-        return (
-            <div className="Leaderboard">
-
-                <h1>{this.props.settings.title}</h1>
-
-                {/* <div>{JSON.stringify(this.props.boards, null, 2)}</div> */}
-
-                <div className="scorecards">
-                    {users && users.map((user) =>
-                        <ScoreCard key={user.id} user={user} />
-                    )}
+        try {
+            const message = this.calculateXP();
+            if(!message) {
+                return (
+                    <div className="Leaderboard">
+                        <h1>{this.props.settings.title}</h1>
+                        <div className="scorecards">
+                            {users && users.map((user) =>
+                                <ScoreCard key={user.id} user={user} />
+                            )}
+                        </div>
+                    </div>
+                );
+            }
+            else {
+                return (
+                    <div className="Leaderboard">
+                        <h1>{this.props.settings.title}</h1>
+                        <div className="scorecards">{message}</div>
+                    </div>
+                );
+            }            
+        }
+        catch(e) {
+            console.log(e);
+            return (
+                <div className="Leaderboard">
+                    <h1>{this.props.settings.title}</h1>
+                    <div className="scorecards">
+                        <Error whatFailed="determine XP" message={e.message || e} />
+                    </div>
                 </div>
-            </div>
-        );
+            );            
+        }
     }
 
     /**
@@ -65,15 +84,16 @@ export class Leaderboard extends React.Component {
     calculateXP() {
         // No calculation required if we have no users.
         if(!this.state || !this.state.users || !this.state.users.length) {
-            return;
+            return "Loading users...";
         }
 
         // No calculation required for no boards.
         if(!this.props.boards || !this.props.boards.length) {
-            return;
+            return "Loading board...";
         }
 
-        CalculateXpForUsers(this.state.users, this.props.boards, this.props.settings);
+        calculateXpForUsers(this.state.users, this.props.boards, this.props.settings);
+        return null;
     }
 }
 

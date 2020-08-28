@@ -4,3 +4,8 @@ body {
   color: #323338;
   color: var(--primary-text-color);  
 }
+
+.error {
+  color: red;
+  font-weight: bold;
+}
