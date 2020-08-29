@@ -11,11 +11,19 @@
 }
 
 /* Puts the text above the progress bar */
-.progress span {
+.progress > span {
 	z-index: 10;
 	position: absolute;
     left: 0;
-    right: 0;
+	right: 0;
+	padding: 0 1em
+}
+
+.progress .left {
+	float: left;
+}
+.progress .right {
+	float: right;
 }
 
 /* Colored bar that fills the progress bar (covering the background) */

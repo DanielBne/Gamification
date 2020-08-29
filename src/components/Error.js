@@ -7,5 +7,5 @@ import React from "react";
 export function Error(props) {
 	const whatFailed = props.whatFailed || "render page";
 	const message = props.message || props.msg || props;
-	return <span class='error'>Failed to {whatFailed} with error: "{message}"</span>;
+	return <span className='error'>Failed to {whatFailed} with error: "{message}"</span>;
 }

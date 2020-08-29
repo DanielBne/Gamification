@@ -7,7 +7,7 @@ export class ScoreCard extends React.Component {
         const user = this.props.user;
         return (
             <div className="scorecard">
-                <div class="info">
+                <div className="info">
                     <img className="dp" src={user.photo_thumb_small} alt="display" />
                     <div>
                         <div className="detail">
@@ -16,12 +16,14 @@ export class ScoreCard extends React.Component {
                         </div>
 
                         <div className="level">
-                            <div>Level: {user.level} ({user.xp}xp)</div>
+                            <div>{user.xp}xp total</div>
                         </div>
                     </div>
                 </div>
 
-                <Progress percent={user.progress} message={`XP: ${user.xpThisLevel}/${user.xpToLevel}`} />
+                <Progress percent={user.progress} 
+                    messageLeft={`Level ${user.level}`} 
+                    messageRight={`XP: ${user.xpThisLevel}/${user.xpToLevel}`} />
             </div>
         );
     }
