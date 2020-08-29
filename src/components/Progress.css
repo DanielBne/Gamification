@@ -1,0 +1,62 @@
+.progress {
+	width: 100%;
+	height: 1em;
+	padding: 0.3em 0em;
+	background-color: #676879;
+	background-color: var(--placeholder-color);
+	color: #f5f6f8;
+	color: var(--dark-background-color);
+	text-align: center;
+	position: relative;
+}
+
+/* Puts the text above the progress bar */
+.progress span {
+	z-index: 10;
+	position: absolute;
+    left: 0;
+    right: 0;
+}
+
+/* Colored bar that fills the progress bar (covering the background) */
+.progress .current {
+	left:0;
+	top:0;
+	position: absolute;
+	height: 100%;
+	background-color: #00ca72;
+	background-color: var(--positive-color);
+	z-index: 0;
+}
+
+.shiny {
+	overflow: hidden;
+}
+.shiny:after {
+    content: '';
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+	background: #fff;
+    animation: animate-shine 3s ease-out infinite;
+}
+@keyframes animate-shine {
+    0% {
+      opacity: 0;
+      width: 0;
+	}
+    25% {
+      opacity: .3;
+    }
+    50% {
+      opacity: 0;
+      width: 100%;
+	}
+    100% {
+		opacity: 0;
+		width: 100%;
+	}	
+  }

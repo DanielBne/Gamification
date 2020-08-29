@@ -48,7 +48,7 @@ export class Leaderboard extends React.Component {
             <div className="Leaderboard">
                 <Title boards={this.props.boards} />
                 <div className="scorecards">
-                    <ScoreCards message={message} error={error} users={this.state.users} />
+                    <Content message={message} error={error} users={this.state.users} />
                 </div>
             </div>
         );
@@ -76,7 +76,7 @@ export class Leaderboard extends React.Component {
 }
 
 // Inner component of the leaderboard, renders a bunch of scorecards or a message.
-function ScoreCards(props) {
+function Content(props) {
     if(props.message) {
         return props.message;
     }

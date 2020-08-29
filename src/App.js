@@ -50,7 +50,7 @@ class App extends React.Component {
   };
 
   render() {
-     // Every property specified in component becomes a property of Leaverbord.props
+    // Every property specified in component becomes a property of Leaverbord.props
     return (
       // TODO: Support dark theme
       <div className="App light-app-theme">

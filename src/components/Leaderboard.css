@@ -15,15 +15,23 @@
   
   .scorecard {
 	margin-right: 1em; /* Do not allow cards to touch, but also do not offset them from the main left line of the app */
-	padding: 1em;
 	background-color: #f5f6f8;
 	background-color: var(--pulse-background-color);
 	border-bottom: 1px solid;
     border-bottom-color: #e6e9ef;
 	border-bottom-color: var(--layout-border-color);
-	
+	position: relative;
+
+	/* Ensure every element under .scoreCard is stacked as far appart as possible to force the XP bar to the bottom */
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+  .scorecard .info {
 	display: flex;
 	flex-direction: row;
+	padding: 1em;
   }
   
   .dp {
@@ -32,15 +40,8 @@
 	margin: 0em 0.5rem;
   }
   
-  .scorecard > div {
+  .scorecard .info > div {
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
-  }
-  
-  .topscorecard {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
   }

@@ -34,6 +34,10 @@ export function calculateXpForUsers(users, boards, settings) {
 
 	for(const user of users) {
 		user.level = 1 + Math.floor(user.xp / settings.xpPerLevel);
+		// Progress to the next level out of 100
+		user.xpThisLevel = user.xp % settings.xpPerLevel;
+		user.xpToLevel = settings.xpPerLevel;
+		user.progress = user.xpThisLevel / settings.xpPerLevel * 100;
 	}
 
 	users = users.sort((x, y) => y.level - x.level);
