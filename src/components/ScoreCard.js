@@ -5,7 +5,7 @@ export class ScoreCard extends React.Component {
     render() {
         return (
             <div className="scorecard">
-                <img className="dp" src={this.props.user.profilePic} alt="display" />
+                <img className="dp" src={this.props.user.photo_thumb_small} alt="display" />
 
                 <div>
                     <div className="detail">

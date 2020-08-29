@@ -37,7 +37,6 @@ export function calculateXpForUsers(users, boards, settings) {
 	}
 
 	users = users.sort((x, y) => y.level - x.level);
-	console.log(users);
 }
 
 

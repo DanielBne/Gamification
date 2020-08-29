@@ -37,7 +37,7 @@ class App extends React.Component {
 
     const boardIds = context.boardIds || [context.boardId];
     monday
-      .api(`query { boards(ids:[${boardIds}]) { id, items { id, name, column_values { type, id, text } } }}`)
+      .api(`query { boards(ids:[${boardIds}]) { id, name, items { id, name, column_values { type, id, text } } }}`)
       .then((res) => { 
         this.setState({ boards: res.data.boards });
       });

@@ -24,14 +24,9 @@ export class Leaderboard extends React.Component {
             .api(`query { users { id, name, title, photo_thumb_small } }`)
             .then((res) => {
                 const users = res.data.users.map((user) => {
-                    return {
-                        id : user.id,
-                        name : user.name,
-                        title : user.title || "",
-                        level : 0,
-                        xp: 0,
-                        profilePic : user.photo_thumb_small
-                    }
+                    user.xp = 0;
+                    user.level = 0;
+                    return user;
                 });
 
                 this.setState({ users: users });
@@ -39,43 +34,26 @@ export class Leaderboard extends React.Component {
     }
 
     render() {
-        const users = this.state.users;
-
+        let message = null;
+        let error = null;
         try {
-            const message = this.calculateXP();
-            if(!message) {
-                return (
-                    <div className="Leaderboard">
-                        <h1>{this.props.settings.title}</h1>
-                        <div className="scorecards">
-                            {users && users.map((user) =>
-                                <ScoreCard key={user.id} user={user} />
-                            )}
-                        </div>
-                    </div>
-                );
-            }
-            else {
-                return (
-                    <div className="Leaderboard">
-                        <h1>{this.props.settings.title}</h1>
-                        <div className="scorecards">{message}</div>
-                    </div>
-                );
-            }            
+            message = this.calculateXP();
         }
-        catch(e) {
+        catch (e) {
             console.log(e);
-            return (
-                <div className="Leaderboard">
-                    <h1>{this.props.settings.title}</h1>
-                    <div className="scorecards">
-                        <Error whatFailed="determine XP" message={e.message || e} />
-                    </div>
-                </div>
-            );            
+            error = e.message || e;
         }
+
+        return (
+            <div className="Leaderboard">
+                <Title boards={this.props.boards} />
+                <div className="scorecards">
+                    <ScoreCards message={message} error={error} users={this.state.users} />
+                </div>
+            </div>
+        );
     }
+    
 
     /**
      * Modifies this.state.users to give XP totals and then levels to each user.
@@ -97,6 +75,30 @@ export class Leaderboard extends React.Component {
     }
 }
 
-// ScoreCard.defaultProps = {
-//     user: {}
-// };
+// Inner component of the leaderboard, renders a bunch of scorecards or a message.
+function ScoreCards(props) {
+    if(props.message) {
+        return props.message;
+    }
+    else if(props.error) {
+        return <Error whatFailed="determine XP" message={props.error} />
+    }
+    else if(props.users) {
+        return props.users.map((user) =>
+            <ScoreCard key={user.id} user={user} />
+        );
+    }
+    else {
+        return "Loading..."
+    }
+}
+
+// Returns the title, which is made up of the board names being viewed.
+function Title(props) {
+    const boards = props.boards
+    if(!boards || boards.length === 0) {
+        return <h1>Please select a board to view</h1>
+    }
+    const csv = boards.map((x) => x.name).join(", ");
+    return <h1>XP for {csv}</h1>;
+}
