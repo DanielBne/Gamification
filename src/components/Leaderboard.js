@@ -2,37 +2,9 @@ import React from "react";
 import { ScoreCard } from "./ScoreCard";
 import { Error } from "./Error";
 import { calculateXpForUsers } from "../logic/xp"
-import mondaySdk from "monday-sdk-js";
 import "./Leaderboard.css";
-const monday = mondaySdk();
 
 export class Leaderboard extends React.Component {
-
-    constructor(props) {
-        super(props);
-
-        // Default state
-        this.state = {
-            users: []
-        };
-
-        this.getUsers();
-    }
-
-    getUsers = () => {
-        monday
-            .api(`query { users { id, name, title, photo_thumb_small } }`)
-            .then((res) => {
-                const users = res.data.users.map((user) => {
-                    user.xp = 0;
-                    user.level = 0;
-                    return user;
-                });
-
-                this.setState({ users: users });
-            });
-    }
-
     render() {
         let message = null;
         let error = null;
@@ -48,7 +20,7 @@ export class Leaderboard extends React.Component {
             <div className="Leaderboard">
                 <Title boards={this.props.boards} />
                 <div className="scorecards">
-                    <Content message={message} error={error} users={this.state.users} />
+                    <Content message={message} error={error} users={this.props.users} />
                 </div>
             </div>
         );
@@ -56,12 +28,12 @@ export class Leaderboard extends React.Component {
     
 
     /**
-     * Modifies this.state.users to give XP totals and then levels to each user.
-     * Relies on this.props.boards (passed in) and this.state.users.
+     * Modifies this.props.users to give XP totals and then levels to each user.
+     * Relies on this.props.boards (passed in) and this.props.users.
      */
     calculateXP() {
         // No calculation required if we have no users.
-        if(!this.state || !this.state.users || !this.state.users.length) {
+        if(!this.props.users || !this.props.users.length) {
             return "Loading users...";
         }
 
@@ -70,7 +42,7 @@ export class Leaderboard extends React.Component {
             return "Loading board...";
         }
 
-        calculateXpForUsers(this.state.users, this.props.boards, this.props.settings);
+        calculateXpForUsers(this.props.users, this.props.boards, this.props.settings);
         return null;
     }
 }
@@ -97,7 +69,7 @@ function Content(props) {
 function Title(props) {
     const boards = props.boards
     if(!boards || boards.length === 0) {
-        return <h1>Please select a board to view</h1>
+        return <h1>Loading...</h1>
     }
     const csv = boards.map((x) => x.name).join(", ");
     return <h1>XP for {csv}</h1>;
